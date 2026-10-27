@@ -1,0 +1,31 @@
+{
+	"name": "platform",
+	"version": "1.0.0",
+	"description": "This project is my implementation of the Platform Game exercise from Eloquent JavaScript by Marijn Haverbeke.",
+	"main": "script.js",
+	"directories": {
+		"doc": "docs",
+		"test": "tests"
+	},
+	"scripts": {
+		"test": "node --test",
+		"lint": "eslint ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/karstenkoerner/eloquent-javascript-platform-game.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "module",
+	"bugs": {
+		"url": "https://github.com/karstenkoerner/eloquent-javascript-platform-game/issues"
+	},
+	"homepage": "https://github.com/karstenkoerner/eloquent-javascript-platform-game#readme",
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"eslint": "^10.13.0",
+		"globals": "^17.13.0"
+	}
+}
