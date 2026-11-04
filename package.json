@@ -8,10 +8,8 @@
 		"test": "tests"
 	},
 	"scripts": {
-		"test": "node --test",
-		"lint": "eslint .",
-		"start": "http-server . -p 8080 -c-1",
-		"check": "npm run lint && npm test"
+		"dev": "http-server . -a 127.0.0.1 -p 8080 -c-1",
+		"lint": "eslint ."
 	},
 	"repository": {
 		"type": "git",
