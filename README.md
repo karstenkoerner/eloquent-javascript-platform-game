@@ -57,8 +57,6 @@ Once the server is running, open the following URLs in your browser:
 
 The test suite runs automatically when its page loads. Click Run Tests to execute the tests again.
 
-Note: The test suite currently uses placeholder results. Actual test execution will be implemented in a subsequent update.
-
 To stop the development server, press Ctrl+C in the terminal.
 
 ## Code Quality
