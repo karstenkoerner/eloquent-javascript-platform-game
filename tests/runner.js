@@ -14,19 +14,7 @@ function runTests() {
 			},
 		},
 		{
-			name: 'Example failing test',
-			run: () => {
-				assertEqual(2 + 2, 5);
-			},
-		},
-		{
-			name: 'Unexpected exception test',
-			run: () => {
-				throw new TypeError('Unexpected test error');
-			},
-		},
-		{
-			name: 'Passing test after failures',
+			name: 'Multiplication assertion succeeds',
 			run: () => {
 				assertEqual(10 * 2, 20);
 			},
@@ -39,12 +27,14 @@ function runTests() {
 			failed: 0,
 		},
 		failedTests: [],
+		passedTests: [],
 	};
 
 	for (const test of tests) {
 		try {
 			test.run();
 			results.totals.passed++;
+			results.passedTests.push(test.name);
 		} catch (error) {
 			results.totals.failed++;
 			results.failedTests.push(`${test.name}: ${error.message}`);

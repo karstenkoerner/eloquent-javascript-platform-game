@@ -45,8 +45,22 @@ function renderResults(results) {
 		failedTestsContainer.appendChild(failedTestContainer);
 	});
 
+	// Container for specific details for passed tests
+	const passedTestsContainer = document.createElement('div');
+	passedTestsContainer.id = 'passed_tests_container';
+	passedTestsContainer.className = 'passed_tests_container';
+
+	// Listing all passed tests in the passed tests container
+	results.passedTests.forEach((passedTest) => {
+		const passedTestContainer = document.createElement('div');
+		passedTestContainer.className = 'passed_test_container';
+		passedTestContainer.textContent = passedTest;
+
+		passedTestsContainer.appendChild(passedTestContainer);
+	});
+
 	// Update results container
-	resultsContainer.replaceChildren(totalsContainer, failedTestsContainer);
+	resultsContainer.replaceChildren(totalsContainer, failedTestsContainer, passedTestsContainer);
 }
 
 function updateResults() {
