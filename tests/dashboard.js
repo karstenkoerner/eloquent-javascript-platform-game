@@ -1,7 +1,10 @@
+import runTests from './runner.js';
+
 // Render the test results on the webpage UI
 function renderResults(results) {
 	const resultsContainer = document.querySelector('#test_results');
 
+	// The test result totals container, which contains the 3 totals_box divs
 	const totalsContainer = document.createElement('div');
 	totalsContainer.id = 'totals_container';
 	totalsContainer.className = 'totals_container';
@@ -28,7 +31,7 @@ function renderResults(results) {
 		totalFailedTestsContainer,
 	);
 
-	// Container for specific details for failed tests
+	// Container for specific details for failed tests, the error messages for each failed test gets listed in this div
 	const failedTestsContainer = document.createElement('div');
 	failedTestsContainer.id = 'failed_tests_container';
 	failedTestsContainer.className = 'failed_tests_container';
@@ -46,15 +49,8 @@ function renderResults(results) {
 	resultsContainer.replaceChildren(totalsContainer, failedTestsContainer);
 }
 
-// Run tests and pass them to renderResults()
-function runTests() {
-	const results = {
-		totals: {
-			passed: 2,
-			failed: 1,
-		},
-		failedTests: ['SyntaxError: Blah blah blah stubby example'],
-	};
+function updateResults() {
+	const results = runTests();
 	renderResults(results);
 }
 
@@ -71,10 +67,9 @@ resultsContainer.className = 'test_results';
 const runButton = document.createElement('button');
 runButton.className = 'run_button';
 runButton.textContent = 'Run tests';
-runButton.addEventListener('click', runTests);
+runButton.addEventListener('click', updateResults);
 
 // Replace the static fallback once the UI is constructed
 root.replaceChildren(heading, runButton, resultsContainer);
 
-// Run tests automatically on page load
-runTests();
+updateResults();
