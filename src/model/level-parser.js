@@ -9,11 +9,11 @@ function parseLevel(plan) {
 	const rows = plan.replace(/\r\n/g, '\n').split('\n');
 
 	// Remove empty rows from beginning and end of plan
-	while (rows[0] === '') {
+	while (rows[0]?.trim() === '') {
 		rows.shift();
 	}
 
-	while (rows[rows.length - 1] === '') {
+	while (rows[rows.length - 1]?.trim() === '') {
 		rows.pop();
 	}
 
@@ -46,19 +46,44 @@ function parseLevel(plan) {
 				// Char is an actor
 				switch (char) {
 					case '@':
-						// Player
+						actors.push({
+							type: 'player',
+							x: x,
+							y: y,
+						});
+
 						break;
 					case 'o':
-						// Coin
+						actors.push({
+							type: 'coin',
+							x: x,
+							y: y,
+						});
+
 						break;
 					case '=':
-						// Horizontal lava
+						actors.push({
+							type: 'horizontal lava',
+							x: x,
+							y: y,
+						});
+
 						break;
 					case '|':
-						// Vertical lava
+						actors.push({
+							type: 'vertical lava',
+							x: x,
+							y: y,
+						});
+
 						break;
 					case 'v':
-						// Dripping lava
+						actors.push({
+							type: 'dripping lava',
+							x: x,
+							y: y,
+						});
+
 						break;
 				}
 
@@ -67,6 +92,11 @@ function parseLevel(plan) {
 				// Char is static
 				terrainRow.push(char);
 			}
+
+			// Actor validation
+			// 1: Actor counts (verify theres exactly one player and at least one coin).
+			// 2: Bounds (verify that each actor's entire bounding rectangle fits inside the level).
+			// 3: Overlaps (verify that actor rectangles don't intersect forbidden terrain or other rectangles).
 		}
 
 		terrainRows.push(terrainRow);
