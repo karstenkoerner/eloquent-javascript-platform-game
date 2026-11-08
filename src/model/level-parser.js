@@ -50,6 +50,8 @@ function parseLevel(plan) {
 							type: 'player',
 							x: x,
 							y: y,
+							width: 0.8,
+							height: 1.5,
 						});
 
 						break;
@@ -58,6 +60,8 @@ function parseLevel(plan) {
 							type: 'coin',
 							x: x,
 							y: y,
+							width: 0.6,
+							height: 0.6,
 						});
 
 						break;
@@ -66,6 +70,8 @@ function parseLevel(plan) {
 							type: 'horizontal lava',
 							x: x,
 							y: y,
+							width: 1,
+							height: 1,
 						});
 
 						break;
@@ -74,6 +80,8 @@ function parseLevel(plan) {
 							type: 'vertical lava',
 							x: x,
 							y: y,
+							width: 1,
+							height: 1,
 						});
 
 						break;
@@ -82,6 +90,8 @@ function parseLevel(plan) {
 							type: 'dripping lava',
 							x: x,
 							y: y,
+							width: 1,
+							height: 1,
 						});
 
 						break;
@@ -92,13 +102,35 @@ function parseLevel(plan) {
 				// Char is static
 				terrainRow.push(char);
 			}
-
-			// Actor validation
-			// 1: Actor counts (verify theres exactly one player and at least one coin).
-			// 2: Bounds (verify that each actor's entire bounding rectangle fits inside the level).
-			// 3: Overlaps (verify that actor rectangles don't intersect forbidden terrain or other rectangles).
 		}
 
 		terrainRows.push(terrainRow);
 	}
+
+	// Actor validation
+	// 1: Actor counts (verify theres exactly one player and at least one coin).
+	// 2: Bounds (verify that each actor's entire bounding rectangle fits inside the level).
+	// 3: Overlaps (verify that actor rectangles don't intersect forbidden terrain or other rectangles).
+
+	const actorCounts = {
+		player: 0,
+		coin: 0,
+	};
+
+	// Actor count validation
+	for (const actor of actors) {
+		if (actor.type === 'player') {
+			actorCounts.player++;
+		}
+
+		if (actor.type === 'coin') {
+			actorCounts.coin++;
+		}
+	}
+
+	if (actorCounts.player !== 1 || actorCounts.coin < 1) {
+		throw new Error('There must be exactly one player and at least one coin.');
+	}
+
+	// Actor bounds validation
 }
