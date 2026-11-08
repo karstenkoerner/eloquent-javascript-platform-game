@@ -1,11 +1,11 @@
-function parseLevel(plan) {
-	// 1. Normalize CRLF to LF and remove outer empty lines. DONE
-	// 2. Validate the plan's structure and symbols.
-	// 3. Build the representation:
-	//    width, height, rows, actors.
-	// 4. Validate actor counts, positions, and overlaps.
-	// 5. Return the validated representation.
+// 1. Normalize CRLF to LF and remove outer empty lines. DONE
+// 2. Validate the plan's structure and symbols.
+// 3. Build the representation:
+//    width, height, rows, actors.
+// 4. Validate actor counts, positions, and overlaps.
+// 5. Return the validated representation.
 
+export default function parseLevel(plan) {
 	const rows = plan.replace(/\r\n/g, '\n').split('\n');
 
 	// Remove empty rows from beginning and end of plan
@@ -133,4 +133,13 @@ function parseLevel(plan) {
 	}
 
 	// Actor bounds validation
+	for (const actor of actors) {
+		const left = Math.floor(actor.x);
+		const right = Math.ceil(actor.x + actor.width) - 1;
+		const top = Math.floor(actor.y);
+		const bottom = Math.ceil(actor.y + actor.height) - 1;
+
+		// TODO: Check bounding box sides against the static terrain grid.
+		// Hint: Loop over the dimensions and calculate all the squares that the actor occupies (even if it only barely protrudes).
+	}
 }
