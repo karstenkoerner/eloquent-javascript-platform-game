@@ -22,14 +22,14 @@ export default function parseLevel(plan) {
 		throw new Error('Level plan cannot be empty.');
 	}
 
-	const width = rows[0].length;
+	const width = rows[0].trimStart().length;
 	const height = rows.length;
 	const terrainRows = [];
 	const actors = [];
 
 	// Iterate over each row in the plan
 	for (let y = 0; y < rows.length; y++) {
-		const row = rows[y];
+		const row = rows[y].trimStart();
 		const terrainRow = [];
 
 		if (row.length !== width) throw new Error('Level plan rows must be of consistent width.');
@@ -48,8 +48,8 @@ export default function parseLevel(plan) {
 					case '@':
 						actors.push({
 							type: 'player',
-							x: x,
-							y: y,
+							x: x + (1 - 0.8) / 2,
+							y: y + 1 - 1.5,
 							width: 0.8,
 							height: 1.5,
 						});
@@ -58,8 +58,8 @@ export default function parseLevel(plan) {
 					case 'o':
 						actors.push({
 							type: 'coin',
-							x: x,
-							y: y,
+							x: x + (1 - 0.6) / 2,
+							y: y + (1 - 0.6) / 2,
 							width: 0.6,
 							height: 0.6,
 						});
@@ -107,11 +107,6 @@ export default function parseLevel(plan) {
 		terrainRows.push(terrainRow);
 	}
 
-	// Actor validation
-	// 1: Actor counts (verify theres exactly one player and at least one coin).
-	// 2: Bounds (verify that each actor's entire bounding rectangle fits inside the level).
-	// 3: Overlaps (verify that actor rectangles don't intersect forbidden terrain or other rectangles).
-
 	const actorCounts = {
 		player: 0,
 		coin: 0,
@@ -139,7 +134,44 @@ export default function parseLevel(plan) {
 		const top = Math.floor(actor.y);
 		const bottom = Math.ceil(actor.y + actor.height) - 1;
 
-		// TODO: Check bounding box sides against the static terrain grid.
-		// Hint: Loop over the dimensions and calculate all the squares that the actor occupies (even if it only barely protrudes).
+		if (
+			actor.x < 0 ||
+			actor.y < 0 ||
+			actor.x + actor.width > width ||
+			actor.y + actor.height > height
+		) {
+			throw new Error('Actor extends outside level bounds.');
+		}
+
+		for (let y = top; y <= bottom; y++) {
+			for (let x = left; x <= right; x++) {
+				if (terrainRows[y][x] !== '.') {
+					throw new Error('Actor overlaps forbidden terrain.');
+				}
+			}
+		}
 	}
+
+	for (let i = 0; i < actors.length; i++) {
+		for (let j = i + 1; j < actors.length; j++) {
+			const a = actors[i];
+			const b = actors[j];
+
+			if (
+				a.x < b.x + b.width &&
+				a.x + a.width > b.x &&
+				a.y < b.y + b.height &&
+				a.y + a.height > b.y
+			) {
+				throw new Error('Actor overlaps with another actor.');
+			}
+		}
+	}
+
+	return {
+		width: width,
+		height: height,
+		rows: terrainRows,
+		actors: actors,
+	};
 }
