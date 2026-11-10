@@ -1,28 +1,3 @@
-// 1. Normalize CRLF to LF and remove outer empty lines. DONE
-// 2. Validate the plan's structure and symbols.
-// 3. Build the representation:
-//    width, height, rows, actors.
-// 4. Validate actor counts, positions, and overlaps.
-// 5. Return the validated representation.
-
-/*
-
-Refactor guide:
-
-function parseLevel(plan) {
-    const rows = normalizeLevel(plan);
-
-    validateLevelRows(rows);
-
-    const representation = buildRepresentation(normalizedLevel);
-
-    validateActors(representation);
-
-    return representation;
-}
-
-*/
-
 // Normalize CRLF to LF, remove whitespace, and reject empty plans
 function normalizeLevel(plan) {
 	const result = plan.replace(/\r\n/g, '\n').split('\n');
@@ -39,14 +14,15 @@ function normalizeLevel(plan) {
 		throw new Error('Level plan cannot be empty.');
 	}
 
-	return result;
+	return result.map((row) => row.trimStart());
 }
 
+//Validate the plan's structure and symbols
 function validateLevelRows(normalizedLevel) {
-	const width = normalizedLevel[0].trimStart().length;
+	const width = normalizedLevel[0].length;
 
 	for (let y = 0; y < normalizedLevel.length; y++) {
-		const row = normalizedLevel[y].trimStart();
+		const row = normalizedLevel[y];
 
 		if (row.length === 0) throw new Error(`Row number ${y} is empty.`);
 		if (row.length !== width) throw new Error('Level plan rows must be of consistent width.');
@@ -61,15 +37,15 @@ function validateLevelRows(normalizedLevel) {
 	}
 }
 
+// Build the representation: width, height, rows, actors
 function buildRepresentation(normalizedLevel) {
-	const width = normalizedLevel[0].trimStart().length;
+	const width = normalizedLevel[0].length;
 	const height = normalizedLevel.length;
 	const terrainRows = [];
 	const actors = [];
 
-	// Iterate over each row in the plan
 	for (let y = 0; y < normalizedLevel.length; y++) {
-		const row = normalizedLevel[y].trimStart();
+		const row = normalizedLevel[y];
 		const terrainRow = [];
 
 		for (let x = 0; x < row.length; x++) {
@@ -147,13 +123,8 @@ function buildRepresentation(normalizedLevel) {
 	};
 }
 
-export default function parseLevel(plan) {
-	const rows = normalizeLevel(plan);
-
-	validateLevelRows(rows);
-
-	const representation = buildRepresentation(rows);
-
+// Validate actor counts, positions, and overlaps/bounds
+function validateActors(representation) {
 	const actorCounts = {
 		player: 0,
 		coin: 0,
@@ -214,11 +185,17 @@ export default function parseLevel(plan) {
 			}
 		}
 	}
+}
 
-	return {
-		width: representation.width,
-		height: representation.height,
-		rows: representation.rows,
-		actors: representation.actors,
-	};
+// Main function to parse the level plan
+export default function parseLevel(plan) {
+	const rows = normalizeLevel(plan);
+
+	validateLevelRows(rows);
+
+	const representation = buildRepresentation(rows);
+
+	validateActors(representation);
+
+	return representation;
 }
