@@ -1,26 +1,7 @@
-function assertEqual(actual, expected) {
-	if (actual !== expected) {
-		throw new Error(`Expected ${expected}, but received ${actual}`);
-	}
-}
+import { tests } from './unit/level-parser.test.js';
 
 // Run tests and return the results to the dashboard
 function runTests() {
-	const tests = [
-		{
-			name: 'Example passing test',
-			run: () => {
-				assertEqual(2 + 2, 4);
-			},
-		},
-		{
-			name: 'Multiplication assertion succeeds',
-			run: () => {
-				assertEqual(10 * 2, 20);
-			},
-		},
-	];
-
 	const results = {
 		totals: {
 			passed: 0,

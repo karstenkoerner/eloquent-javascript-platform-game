@@ -17,7 +17,6 @@ export default function parseLevel(plan) {
 		rows.pop();
 	}
 
-	// Reject empty plan
 	if (rows.length === 0) {
 		throw new Error('Level plan cannot be empty.');
 	}
@@ -42,8 +41,8 @@ export default function parseLevel(plan) {
 				throw new Error(`Row number ${y + 1} contains invalid characters.`);
 			}
 
+			// Differentiate static characters vs actor characters
 			if (/[@o=|v]/.test(char)) {
-				// Char is an actor
 				switch (char) {
 					case '@':
 						actors.push({
@@ -99,7 +98,6 @@ export default function parseLevel(plan) {
 
 				terrainRow.push('.');
 			} else {
-				// Char is static
 				terrainRow.push(char);
 			}
 		}
