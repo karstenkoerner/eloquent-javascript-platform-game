@@ -31,6 +31,8 @@ export default function parseLevel(plan) {
 		const row = rows[y].trimStart();
 		const terrainRow = [];
 
+		if (row.length === 0) throw new Error(`Row number ${y} is empty.`);
+
 		if (row.length !== width) throw new Error('Level plan rows must be of consistent width.');
 
 		// Iterate over each character in the current row
@@ -38,7 +40,7 @@ export default function parseLevel(plan) {
 			const char = row[x];
 
 			if (!/[.#+@o=|v]/.test(char)) {
-				throw new Error(`Row number ${y + 1} contains invalid characters.`);
+				throw new Error(`Row number ${y} contains invalid characters.`);
 			}
 
 			// Differentiate static characters vs actor characters

@@ -175,6 +175,89 @@ export const validLevels = {
 			],
 		},
 	},
+	crlf_newlines: {
+		input: '.....\r\n.....\r\n.@.o.\r\n#####',
+		expected: {
+			width: 5,
+			height: 4,
+			rows: [[...'.....'], [...'.....'], [...'.....'], [...'#####']],
+			actors: [
+				{
+					type: 'player',
+					x: 1.1,
+					y: 1.5,
+					width: 0.8,
+					height: 1.5,
+				},
+				{
+					type: 'coin',
+					x: 3.2,
+					y: 2.2,
+					width: 0.6,
+					height: 0.6,
+				},
+			],
+		},
+	},
+	one_player_one_coin: {
+		input: `
+        ........
+        ........
+        .@...o..
+        ########
+    `,
+		expected: {
+			width: 8,
+			height: 4,
+			rows: [[...'........'], [...'........'], [...'........'], [...'########']],
+			actors: [
+				{
+					type: 'player',
+					x: 1.1,
+					y: 1.5,
+					width: 0.8,
+					height: 1.5,
+				},
+				{
+					type: 'coin',
+					x: 5.2,
+					y: 2.2,
+					width: 0.6,
+					height: 0.6,
+				},
+			],
+		},
+	},
+
+	touching_actor_rectangles: {
+		input: `
+        ........
+        ........
+        .@o.....
+        ########
+    `,
+		expected: {
+			width: 8,
+			height: 4,
+			rows: [[...'........'], [...'........'], [...'........'], [...'########']],
+			actors: [
+				{
+					type: 'player',
+					x: 1.1,
+					y: 1.5,
+					width: 0.8,
+					height: 1.5,
+				},
+				{
+					type: 'coin',
+					x: 2.2,
+					y: 2.2,
+					width: 0.6,
+					height: 0.6,
+				},
+			],
+		},
+	},
 };
 
 // Invalid level tests use assertThrows(), which expects 2 params:
@@ -216,6 +299,30 @@ export const invalidLevels = {
     	`,
 		expectedPattern: /^Actor overlaps with another actor\.$/i,
 	},
+	player_overlapping_dripping_lava: {
+		input: `
+			....v...
+			.o..@...
+			########
+    	`,
+		expectedPattern: /^Actor overlaps with another actor\.$/i,
+	},
+	player_overlapping_static_lava: {
+		input: `
+			....+...
+			.o..@...
+			########
+    	`,
+		expectedPattern: /^Actor overlaps forbidden terrain\.$/i,
+	},
+	player_overlapping_wall: {
+		input: `
+			...###..
+			.o..@...
+			########
+    	`,
+		expectedPattern: /^Actor overlaps forbidden terrain\.$/i,
+	},
 	player_out_of_bounds: {
 		input: `
 			....@...
@@ -223,5 +330,38 @@ export const invalidLevels = {
 			########
     	`,
 		expectedPattern: /^Actor extends outside level bounds\.$/i,
+	},
+	ragged_rows: {
+		input: `
+			.......
+			.o..@...
+			########
+    	`,
+		expectedPattern: /^Level plan rows must be of consistent width\.$/i,
+	},
+	unknown_symbol: {
+		input: `
+			......?.
+			.o..@...
+			########
+    	`,
+		expectedPattern: /^Row number 0 contains invalid characters\.$/i,
+	},
+	interior_blank_row: {
+		input: `
+			........
+
+			.o..@...
+			########
+    	`,
+		expectedPattern: /^Row number 1 is empty\.$/i,
+	},
+	single_space_inside_row: {
+		input: `
+			.. .....
+			.o..@...
+			########
+    	`,
+		expectedPattern: /^Row number 0 contains invalid characters\.$/i,
 	},
 };
