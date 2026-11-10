@@ -1,3 +1,4 @@
+// Valid level tests use assertDeepEqual(), which expects 2 params: the input level string, and the expected result of parsing the string using parseLevel().
 export const validLevels = {
 	small_24x15: {
 		input: `
@@ -173,5 +174,54 @@ export const validLevels = {
 				{ type: 'dripping lava', x: 42, y: 20, width: 1, height: 1 },
 			],
 		},
+	},
+};
+
+// Invalid level tests use assertThrows(), which expects 2 params:
+// a function to execute, and the expected pattern for the error thrown (use regex).
+export const invalidLevels = {
+	empty_level: {
+		input: '',
+		expectedPattern: /^Level plan cannot be empty\.$/i,
+	},
+	no_player: {
+		input: `
+			.....
+			..o..
+			#####
+    	`,
+		expectedPattern: /^There must be exactly one player and at least one coin\.$/i,
+	},
+	two_players: {
+		input: `
+			........
+			.@..@.o.
+			########
+    	`,
+		expectedPattern: /^There must be exactly one player and at least one coin\.$/i,
+	},
+	no_coins: {
+		input: `
+			........
+			....@...
+			########
+    	`,
+		expectedPattern: /^There must be exactly one player and at least one coin\.$/i,
+	},
+	player_overlapping_coin: {
+		input: `
+			....o...
+			....@...
+			########
+    	`,
+		expectedPattern: /^Actor overlaps with another actor\.$/i,
+	},
+	player_out_of_bounds: {
+		input: `
+			....@...
+			.o......
+			########
+    	`,
+		expectedPattern: /^Actor extends outside level bounds\.$/i,
 	},
 };
