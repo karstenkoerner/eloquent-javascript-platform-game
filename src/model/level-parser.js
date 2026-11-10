@@ -5,21 +5,45 @@
 // 4. Validate actor counts, positions, and overlaps.
 // 5. Return the validated representation.
 
-export default function parseLevel(plan) {
-	const rows = plan.replace(/\r\n/g, '\n').split('\n');
+/*
 
-	// Remove empty rows from beginning and end of plan
-	while (rows[0]?.trim() === '') {
-		rows.shift();
+Refactor guide:
+
+function parseLevel(plan) {
+    const normalizedLevel = normalizeLevel(plan);
+
+    validateStaticTerrain(normalizedLevel);
+
+    const representation = buildRepresentation(normalizedLevel);
+
+    validateActors(representation);
+
+    return representation;
+}
+
+*/
+
+// Normalize CRLF to LF, remove whitespace, and reject empty plans
+function normalizeLevel(plan) {
+	const result = plan.replace(/\r\n/g, '\n').split('\n');
+
+	while (result[0]?.trim() === '') {
+		result.shift();
 	}
 
-	while (rows[rows.length - 1]?.trim() === '') {
-		rows.pop();
+	while (result[result.length - 1]?.trim() === '') {
+		result.pop();
 	}
 
-	if (rows.length === 0) {
+	if (result.length === 0) {
 		throw new Error('Level plan cannot be empty.');
 	}
+
+	return result;
+}
+
+export default function parseLevel(plan) {
+	const rows = normalizeLevel(plan);
 
 	const width = rows[0].trimStart().length;
 	const height = rows.length;
