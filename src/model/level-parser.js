@@ -10,9 +10,9 @@
 Refactor guide:
 
 function parseLevel(plan) {
-    const normalizedLevel = normalizeLevel(plan);
+    const rows = normalizeLevel(plan);
 
-    validateStaticTerrain(normalizedLevel);
+    validateLevelRows(rows);
 
     const representation = buildRepresentation(normalizedLevel);
 
@@ -42,30 +42,38 @@ function normalizeLevel(plan) {
 	return result;
 }
 
-export default function parseLevel(plan) {
-	const rows = normalizeLevel(plan);
+function validateLevelRows(normalizedLevel) {
+	const width = normalizedLevel[0].trimStart().length;
 
-	const width = rows[0].trimStart().length;
-	const height = rows.length;
-	const terrainRows = [];
-	const actors = [];
-
-	// Iterate over each row in the plan
-	for (let y = 0; y < rows.length; y++) {
-		const row = rows[y].trimStart();
-		const terrainRow = [];
+	for (let y = 0; y < normalizedLevel.length; y++) {
+		const row = normalizedLevel[y].trimStart();
 
 		if (row.length === 0) throw new Error(`Row number ${y} is empty.`);
-
 		if (row.length !== width) throw new Error('Level plan rows must be of consistent width.');
 
-		// Iterate over each character in the current row
 		for (let x = 0; x < row.length; x++) {
 			const char = row[x];
 
 			if (!/[.#+@o=|v]/.test(char)) {
 				throw new Error(`Row number ${y} contains invalid characters.`);
 			}
+		}
+	}
+}
+
+function buildRepresentation(normalizedLevel) {
+	const width = normalizedLevel[0].trimStart().length;
+	const height = normalizedLevel.length;
+	const terrainRows = [];
+	const actors = [];
+
+	// Iterate over each row in the plan
+	for (let y = 0; y < normalizedLevel.length; y++) {
+		const row = normalizedLevel[y].trimStart();
+		const terrainRow = [];
+
+		for (let x = 0; x < row.length; x++) {
+			const char = row[x];
 
 			// Differentiate static characters vs actor characters
 			if (/[@o=|v]/.test(char)) {
@@ -131,13 +139,28 @@ export default function parseLevel(plan) {
 		terrainRows.push(terrainRow);
 	}
 
+	return {
+		width: width,
+		height: height,
+		rows: terrainRows,
+		actors: actors,
+	};
+}
+
+export default function parseLevel(plan) {
+	const rows = normalizeLevel(plan);
+
+	validateLevelRows(rows);
+
+	const representation = buildRepresentation(rows);
+
 	const actorCounts = {
 		player: 0,
 		coin: 0,
 	};
 
 	// Actor count validation
-	for (const actor of actors) {
+	for (const actor of representation.actors) {
 		if (actor.type === 'player') {
 			actorCounts.player++;
 		}
@@ -152,7 +175,7 @@ export default function parseLevel(plan) {
 	}
 
 	// Actor bounds validation
-	for (const actor of actors) {
+	for (const actor of representation.actors) {
 		const left = Math.floor(actor.x);
 		const right = Math.ceil(actor.x + actor.width) - 1;
 		const top = Math.floor(actor.y);
@@ -161,25 +184,25 @@ export default function parseLevel(plan) {
 		if (
 			actor.x < 0 ||
 			actor.y < 0 ||
-			actor.x + actor.width > width ||
-			actor.y + actor.height > height
+			actor.x + actor.width > representation.width ||
+			actor.y + actor.height > representation.height
 		) {
 			throw new Error('Actor extends outside level bounds.');
 		}
 
 		for (let y = top; y <= bottom; y++) {
 			for (let x = left; x <= right; x++) {
-				if (terrainRows[y][x] !== '.') {
+				if (representation.rows[y][x] !== '.') {
 					throw new Error('Actor overlaps forbidden terrain.');
 				}
 			}
 		}
 	}
 
-	for (let i = 0; i < actors.length; i++) {
-		for (let j = i + 1; j < actors.length; j++) {
-			const a = actors[i];
-			const b = actors[j];
+	for (let i = 0; i < representation.actors.length; i++) {
+		for (let j = i + 1; j < representation.actors.length; j++) {
+			const a = representation.actors[i];
+			const b = representation.actors[j];
 
 			if (
 				a.x < b.x + b.width &&
@@ -193,9 +216,9 @@ export default function parseLevel(plan) {
 	}
 
 	return {
-		width: width,
-		height: height,
-		rows: terrainRows,
-		actors: actors,
+		width: representation.width,
+		height: representation.height,
+		rows: representation.rows,
+		actors: representation.actors,
 	};
 }
