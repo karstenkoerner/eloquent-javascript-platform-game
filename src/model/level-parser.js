@@ -59,7 +59,7 @@ function buildRepresentation(normalizedLevel) {
 							type: 'player',
 							x: x + (1 - 0.8) / 2,
 							y: y + 1 - 1.5,
-							width: 0.8,
+							width: 0.7,
 							height: 1.5,
 						});
 
