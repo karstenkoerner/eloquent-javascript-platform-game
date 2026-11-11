@@ -3,7 +3,7 @@ import { runTests } from './runner.js';
 const results = runTests();
 
 for (const test of results.failedTests) {
-	console.error(`FAIL: ${test.name}`);
+	console.error(`FAIL: ${test}`);
 }
 
 console.log(`Tests: ${results.totals.passed} passed, ` + `${results.totals.failed} failed`);
