@@ -7,7 +7,7 @@ export const tests = [
 	...Object.entries(validLevels).map(([name, fixture]) => ({
 		name: `Correctly parses valid level: ${name}`,
 		run: () => {
-			assertDeepEqual(parseLevel(fixture.input), fixture.expected);
+			assertDeepEqual(parseLevel(fixture.input, name), fixture.expected);
 		},
 	})),
 
@@ -15,7 +15,7 @@ export const tests = [
 	...Object.entries(invalidLevels).map(([name, fixture]) => ({
 		name: `Rejects invalid level: ${name}`,
 		run: () => {
-			assertThrows(() => parseLevel(fixture.input), fixture.expectedPattern);
+			assertThrows(() => parseLevel(fixture.input, name), fixture.expectedPattern);
 		},
 	})),
 ];

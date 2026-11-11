@@ -60,7 +60,7 @@ Serve the project root over HTTP so modules resolve normally. In PG-001, choose 
 
 ## Level and actor contracts
 
-A level is a nonempty rectangle. Normalize CRLF to LF and remove empty lines at the beginning/end; preserve all other positions. Interior spaces, tabs, blank rows, and indentation are invalid rather than implicitly repaired. Show a one-based level/row/column in validation diagnostics when the defect has a location.
+A level is a nonempty rectangle after normalization. Normalize CRLF to LF. Remove leading and trailing lines containing only whitespace. Remove leading whitespace from each remaining row independently. Validate the resulting rows without further trimming: embedded or trailing whitespace, interior blank rows, unsupported symbols, and unequal row lengths are invalid. Level dimensions and actor placement derive from the normalized rows. Leading indentation has no spatial meaning; use . to represent empty cells. Show a one-based level/row/column in validation diagnostics when the defect has a location.
 
 | Plan symbol | Background | Initial actor |
 | --- | --- | --- |
