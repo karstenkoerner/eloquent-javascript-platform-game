@@ -224,6 +224,45 @@ export const validLevels = {
 			],
 		},
 	},
+
+	uneven_leading_indentation: {
+		input: '  .....\n    .@.o.\n #####',
+		expected: {
+			width: 5,
+			height: 3,
+			rows: [[...'.....'], [...'.....'], [...'#####']],
+			actors: [
+				{ type: 'player', x: 1, y: 0.5, width: 0.8, height: 1.5 },
+				{ type: 'coin', x: 3.2, y: 1.1, width: 0.6, height: 0.6 },
+			],
+		},
+	},
+
+	mixed_space_tab_indentation: {
+		input: '\t.....\n \t.@.o.\n\t \t#####',
+		expected: {
+			width: 5,
+			height: 3,
+			rows: [[...'.....'], [...'.....'], [...'#####']],
+			actors: [
+				{ type: 'player', x: 1, y: 0.5, width: 0.8, height: 1.5 },
+				{ type: 'coin', x: 3.2, y: 1.1, width: 0.6, height: 0.6 },
+			],
+		},
+	},
+
+	whitespace_only_outer_rows: {
+		input: ' \t \n.....\n.@.o.\n#####\n\t  ',
+		expected: {
+			width: 5,
+			height: 3,
+			rows: [[...'.....'], [...'.....'], [...'#####']],
+			actors: [
+				{ type: 'player', x: 1, y: 0.5, width: 0.8, height: 1.5 },
+				{ type: 'coin', x: 3.2, y: 1.1, width: 0.6, height: 0.6 },
+			],
+		},
+	},
 };
 
 // Invalid level tests use assertThrows().
@@ -350,5 +389,14 @@ export const invalidLevels = {
     	`,
 		expectedPattern:
 			/^Level 'single_space_inside_row', row 1, column 3: Invalid character ' '\.$/i,
+	},
+	trailing_whitespace: {
+		input: '..... \n.@.o. \n##### ',
+		expectedPattern: /Invalid character ' '/i,
+	},
+
+	interior_whitespace_only_row: {
+		input: '.....\n   \n.@.o.\n#####',
+		expectedPattern: /Row 2 is empty\./i,
 	},
 };
