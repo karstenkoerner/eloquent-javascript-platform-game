@@ -44,7 +44,7 @@ Planning baseline v1 • 2026-10-25. These are recommended initial choices, not 
 
 **Alternatives:** Trust strings; silently pad/dedent/repair; reject malformed input with context.
 
-**Recommendation:** Validate the entire catalog before play. Normalize line endings and outer empty lines only. Reject invalid shape/symbols, missing/duplicate player, zero coins, out-of-bounds/wall-embedded actor rectangles, and initial player overlap with hazards/coins. Validate all rectangles after applying offsets. Other actor overlaps may be valid; prove level solvability manually.
+**Recommendation:** Validate the entire catalog before play. Normalize CRLF, discard whitespace-only outer lines, and remove leading whitespace from each remaining row independently before validation. Leading indentation is authoring formatting, not level geometry; authors use . for empty cells. Embedded/trailing whitespace and interior blank rows remain invalid. Reject invalid shape/symbols, missing/duplicate player, zero coins, out-of-bounds/wall-embedded actor rectangles, and initial player overlap with hazards/coins. Validate all rectangles after applying offsets. Other actor overlaps may be valid; prove level solvability manually.
 
 **Tradeoffs:** More validation code, but predictable errors and meaningful author feedback. A reachability solver would be disproportionate. Rejecting zero-coin plans avoids a special automatic-win rule. Parser-local geometry can precede the later runtime collision module.
 
