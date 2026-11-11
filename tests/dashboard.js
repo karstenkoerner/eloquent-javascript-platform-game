@@ -1,4 +1,4 @@
-import runTests from './runner.js';
+import { runTests } from './runner.js';
 
 // Render the test results on the webpage UI
 function renderResults(results) {

@@ -1,7 +1,7 @@
 import { tests } from './unit/level-parser.test.js';
 
 // Run tests and return the results to the dashboard
-function runTests() {
+export function runTests() {
 	const results = {
 		totals: {
 			passed: 0,
@@ -24,5 +24,3 @@ function runTests() {
 
 	return results;
 }
-
-export default runTests;
