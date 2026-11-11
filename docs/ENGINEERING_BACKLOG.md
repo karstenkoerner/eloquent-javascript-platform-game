@@ -25,7 +25,7 @@ Priorities: **P1** means foundational or required gameplay; **P2** means require
 - **Type:** Feature
 - **Priority:** P1
 - **Objective:** Turn authored text into reliable level data before gameplay starts.
-- **Requirements:** FR-002, FR-003. Support `.`, `#`, `+`, `@`, `o`, `=`, `|`, and `v`; actor markers leave empty background cells. Normalize CRLF and remove only outer empty lines and leading whitespace on individual rows.
+- **Requirements:** FR-002, FR-003. Support `.`, `#`, `+`, `@`, `o`, `=`, `|`, and `v`; actor markers leave empty background cells. Normalize CRLF, remove outer empty or whitespace-only lines, and remove leading whitespace from each remaining row independently.
 - **Acceptance criteria:** Valid plans produce the expected dimensions, static cells, and actor spawn descriptions. Reject empty plans, ragged rows, unknown symbols, interior blank rows, anything other than one player, and zero coins. Check each full initial actor rectangle against bounds and solid cells; reject initial player overlap with static lava, moving lava, or coins. Validation reports the level and offending row/column where meaningful. Rejected data never becomes a partially valid level.
 - **Dependencies:** PG-001.
 - **Testing expectations:** Planned cases T-002–T-004 in [Test Plan](TEST_PLAN.md). Valid fixtures cover every symbol and both LF/CRLF. Invalid fixtures cover every rejection category, including the player's half-cell upward offset and edge-boundary spawn. Check that normalization repairs indentation.
