@@ -1,4 +1,4 @@
-// Valid level tests use assertDeepEqual(), which expects 2 params: the input level string, and the expected result of parsing the string using parseLevel().
+// Valid level tests use assertDeepEqual().
 export const validLevels = {
 	small_24x15: {
 		input: `
@@ -39,10 +39,10 @@ export const validLevels = {
 				[...'........................'],
 			],
 			actors: [
-				{ type: 'coin', x: 17.2, y: 4.2, width: 0.6, height: 0.6 },
-				{ type: 'coin', x: 9.2, y: 6.2, width: 0.6, height: 0.6 },
-				{ type: 'player', x: 3.1, y: 8.5, width: 0.8, height: 1.5 },
-				{ type: 'coin', x: 12.2, y: 10.2, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 17.2, y: 4.1, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 9.2, y: 6.1, width: 0.6, height: 0.6 },
+				{ type: 'player', x: 3, y: 8.5, width: 0.8, height: 1.5 },
+				{ type: 'coin', x: 12.2, y: 10.1, width: 0.6, height: 0.6 },
 			],
 		},
 	},
@@ -94,13 +94,13 @@ export const validLevels = {
 				[...'..............................'],
 			],
 			actors: [
-				{ type: 'coin', x: 23.2, y: 3.2, width: 0.6, height: 0.6 },
-				{ type: 'coin', x: 14.2, y: 5.2, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 23.2, y: 3.1, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 14.2, y: 5.1, width: 0.6, height: 0.6 },
 				{ type: 'horizontal lava', x: 9, y: 8, width: 1, height: 1 },
-				{ type: 'coin', x: 5.2, y: 10.2, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 5.2, y: 10.1, width: 0.6, height: 0.6 },
 				{ type: 'vertical lava', x: 19, y: 10, width: 1, height: 1 },
-				{ type: 'player', x: 1.1, y: 12.5, width: 0.8, height: 1.5 },
-				{ type: 'coin', x: 15.2, y: 13.2, width: 0.6, height: 0.6 },
+				{ type: 'player', x: 1, y: 12.5, width: 0.8, height: 1.5 },
+				{ type: 'coin', x: 15.2, y: 13.1, width: 0.6, height: 0.6 },
 				{ type: 'dripping lava', x: 23, y: 15, width: 1, height: 1 },
 			],
 		},
@@ -161,20 +161,21 @@ export const validLevels = {
 				[...'................................................'],
 			],
 			actors: [
-				{ type: 'coin', x: 41.2, y: 2.2, width: 0.6, height: 0.6 },
-				{ type: 'coin', x: 31.2, y: 4.2, width: 0.6, height: 0.6 },
-				{ type: 'coin', x: 21.2, y: 6.2, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 41.2, y: 2.1, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 31.2, y: 4.1, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 21.2, y: 6.1, width: 0.6, height: 0.6 },
 				{ type: 'horizontal lava', x: 38, y: 7, width: 1, height: 1 },
-				{ type: 'coin', x: 14.2, y: 9.2, width: 0.6, height: 0.6 },
-				{ type: 'coin', x: 7.2, y: 12.2, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 14.2, y: 9.1, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 7.2, y: 12.1, width: 0.6, height: 0.6 },
 				{ type: 'vertical lava', x: 27, y: 12, width: 1, height: 1 },
-				{ type: 'coin', x: 37.2, y: 14.2, width: 0.6, height: 0.6 },
-				{ type: 'player', x: 2.1, y: 14.5, width: 0.8, height: 1.5 },
-				{ type: 'coin', x: 22.2, y: 15.2, width: 0.6, height: 0.6 },
+				{ type: 'coin', x: 37.2, y: 14.1, width: 0.6, height: 0.6 },
+				{ type: 'player', x: 2, y: 14.5, width: 0.8, height: 1.5 },
+				{ type: 'coin', x: 22.2, y: 15.1, width: 0.6, height: 0.6 },
 				{ type: 'dripping lava', x: 42, y: 20, width: 1, height: 1 },
 			],
 		},
 	},
+
 	crlf_newlines: {
 		input: '.....\r\n.....\r\n.@.o.\r\n#####',
 		expected: {
@@ -182,23 +183,12 @@ export const validLevels = {
 			height: 4,
 			rows: [[...'.....'], [...'.....'], [...'.....'], [...'#####']],
 			actors: [
-				{
-					type: 'player',
-					x: 1.1,
-					y: 1.5,
-					width: 0.8,
-					height: 1.5,
-				},
-				{
-					type: 'coin',
-					x: 3.2,
-					y: 2.2,
-					width: 0.6,
-					height: 0.6,
-				},
+				{ type: 'player', x: 1, y: 1.5, width: 0.8, height: 1.5 },
+				{ type: 'coin', x: 3.2, y: 2.1, width: 0.6, height: 0.6 },
 			],
 		},
 	},
+
 	one_player_one_coin: {
 		input: `
         ........
@@ -211,20 +201,8 @@ export const validLevels = {
 			height: 4,
 			rows: [[...'........'], [...'........'], [...'........'], [...'########']],
 			actors: [
-				{
-					type: 'player',
-					x: 1.1,
-					y: 1.5,
-					width: 0.8,
-					height: 1.5,
-				},
-				{
-					type: 'coin',
-					x: 5.2,
-					y: 2.2,
-					width: 0.6,
-					height: 0.6,
-				},
+				{ type: 'player', x: 1, y: 1.5, width: 0.8, height: 1.5 },
+				{ type: 'coin', x: 5.2, y: 2.1, width: 0.6, height: 0.6 },
 			],
 		},
 	},
@@ -241,112 +219,119 @@ export const validLevels = {
 			height: 4,
 			rows: [[...'........'], [...'........'], [...'........'], [...'########']],
 			actors: [
-				{
-					type: 'player',
-					x: 1.1,
-					y: 1.5,
-					width: 0.8,
-					height: 1.5,
-				},
-				{
-					type: 'coin',
-					x: 2.2,
-					y: 2.2,
-					width: 0.6,
-					height: 0.6,
-				},
+				{ type: 'player', x: 1, y: 1.5, width: 0.8, height: 1.5 },
+				{ type: 'coin', x: 2.2, y: 2.1, width: 0.6, height: 0.6 },
 			],
 		},
 	},
 };
 
-// Invalid level tests use assertThrows(), which expects 2 params:
-// a function to execute, and the expected pattern for the error thrown (use regex).
+// Invalid level tests use assertThrows().
 export const invalidLevels = {
 	empty_level: {
 		input: '',
-		expectedPattern: /^Level plan cannot be empty\.$/i,
+		expectedPattern: /^Level 'empty_level': Level plan cannot be empty\.$/i,
 	},
+
 	no_player: {
 		input: `
 			.....
 			..o..
 			#####
     	`,
-		expectedPattern: /^There must be exactly one player and at least one coin\.$/i,
+		expectedPattern:
+			/^Level 'no_player': There must be exactly one player and at least one coin\.$/i,
 	},
+
 	two_players: {
 		input: `
 			........
 			.@..@.o.
 			########
     	`,
-		expectedPattern: /^There must be exactly one player and at least one coin\.$/i,
+		expectedPattern:
+			/^Level 'two_players': There must be exactly one player and at least one coin\.$/i,
 	},
+
 	no_coins: {
 		input: `
 			........
 			....@...
 			########
     	`,
-		expectedPattern: /^There must be exactly one player and at least one coin\.$/i,
+		expectedPattern:
+			/^Level 'no_coins': There must be exactly one player and at least one coin\.$/i,
 	},
+
 	player_overlapping_coin: {
 		input: `
 			....o...
 			....@...
 			########
     	`,
-		expectedPattern: /^Actor overlaps with another actor\.$/i,
+		expectedPattern:
+			/^Level 'player_overlapping_coin': coin at row 1, column 5 overlaps with player at row 2, column 5\.$/i,
 	},
+
 	player_overlapping_dripping_lava: {
 		input: `
 			....v...
 			.o..@...
 			########
     	`,
-		expectedPattern: /^Actor overlaps with another actor\.$/i,
+		expectedPattern:
+			/^Level 'player_overlapping_dripping_lava': dripping lava at row 1, column 5 overlaps with player at row 2, column 5\.$/i,
 	},
+
 	player_overlapping_static_lava: {
 		input: `
 			....+...
 			.o..@...
 			########
     	`,
-		expectedPattern: /^Actor overlaps forbidden terrain\.$/i,
+		expectedPattern:
+			/^Level 'player_overlapping_static_lava', row 2, column 5: Actor overlaps forbidden terrain\.$/i,
 	},
+
 	player_overlapping_wall: {
 		input: `
 			...###..
 			.o..@...
 			########
     	`,
-		expectedPattern: /^Actor overlaps forbidden terrain\.$/i,
+		expectedPattern:
+			/^Level 'player_overlapping_wall', row 2, column 5: Actor overlaps forbidden terrain\.$/i,
 	},
+
 	player_out_of_bounds: {
 		input: `
 			....@...
 			.o......
 			########
     	`,
-		expectedPattern: /^Actor extends outside level bounds\.$/i,
+		expectedPattern:
+			/^Level 'player_out_of_bounds', row 1, column 5: Actor extends outside level bounds\.$/i,
 	},
+
 	ragged_rows: {
 		input: `
 			.......
 			.o..@...
 			########
     	`,
-		expectedPattern: /^Level plan rows must be of consistent width\.$/i,
+		expectedPattern:
+			/^Level 'ragged_rows', row 2: Level plan rows must be of consistent width\.$/i,
 	},
+
 	unknown_symbol: {
 		input: `
 			......?.
 			.o..@...
 			########
     	`,
-		expectedPattern: /^Row number 0 contains invalid characters\.$/i,
+		expectedPattern: /^Level 'unknown_symbol', row 1, column 7: Invalid character '\?'\.$/i,
 	},
+
 	interior_blank_row: {
 		input: `
 			........
@@ -354,14 +339,16 @@ export const invalidLevels = {
 			.o..@...
 			########
     	`,
-		expectedPattern: /^Row number 1 is empty\.$/i,
+		expectedPattern: /^Level 'interior_blank_row': Row 2 is empty\.$/i,
 	},
+
 	single_space_inside_row: {
 		input: `
 			.. .....
 			.o..@...
 			########
     	`,
-		expectedPattern: /^Row number 0 contains invalid characters\.$/i,
+		expectedPattern:
+			/^Level 'single_space_inside_row', row 1, column 3: Invalid character ' '\.$/i,
 	},
 };
