@@ -1,5 +1,5 @@
 import State from '../../src/model/state.js';
-import { assertDeepEqual, assertThrows, assertEqual } from '../assertions.js';
+import { assertDeepEqual, assertEqual } from '../assertions.js';
 import {
 	initializationTests,
 	snapshotTests,
