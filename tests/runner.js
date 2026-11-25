@@ -1,10 +1,12 @@
 import { tests as parserTests } from './unit/level-parser.test.js';
 import { tests as stateTests } from './unit/state.test.js';
+import { tests as levelStateTests } from './integration/level-state.test.js';
 
 // When adding new test suites, simply import them and add them to the suites object below
 const suites = {
-	'Level Parser': parserTests,
-	State: stateTests,
+	'Level Parser UNIT': parserTests,
+	'State UNIT': stateTests,
+	'Level-State INTEGRATION': levelStateTests,
 };
 
 export function runTests() {
