@@ -8,6 +8,9 @@
 
 .run_button {
 	margin-bottom: 40px;
+	padding: 10px 20px;
+
+	cursor: pointer;
 }
 
 .test_results {
@@ -18,15 +21,16 @@
 	align-items: center;
 }
 
+/* Overall test totals */
+
 .totals_container {
 	width: min(100%, 600px);
 
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+	align-items: stretch;
 }
 
-/* All .totals_container children */
 .totals_box {
 	flex: 1;
 	margin: 5px;
@@ -37,11 +41,11 @@
 	align-items: center;
 	justify-content: center;
 
-	border: solid 2px;
-	border-radius: 3px;
-	border-color: grey;
+	border: solid 2px grey;
+	border-radius: 6px;
 
 	font-weight: bold;
+	text-align: center;
 }
 
 .total_tests_container {
@@ -54,34 +58,94 @@
 
 .total_failed_tests_container {
 	background: rgb(222, 0, 0);
-
 	color: #ffffff;
 }
 
-.failed_tests_container {
+/* Test suites */
+
+.suites_container {
+	width: min(100%, 600px);
+	margin-top: 20px;
+
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	gap: 12px;
 }
 
-.failed_test_container {
-	margin-top: 30px;
-
-	border-bottom: solid 1px rgb(255, 178, 178);
-
-	color: rgb(222, 0, 0);
+.test_suite {
+	border: solid 1px;
+	border-radius: 6px;
+	overflow: hidden;
 }
 
+.test_suite.passed {
+	border-color: #22c55e;
+}
+
+.test_suite.failed {
+	border-color: #ef4444;
+}
+
+/* Clickable suite headings */
+
+.suite_summary {
+	padding: 16px;
+
+	font-weight: bold;
+	cursor: pointer;
+	user-select: none;
+}
+
+.test_suite.passed > .suite_summary {
+	background-color: #dcfce7;
+	color: #166534;
+}
+
+.test_suite.failed > .suite_summary {
+	background-color: #fee2e2;
+	color: #991b1b;
+}
+
+.suite_summary:hover {
+	filter: brightness(0.95);
+}
+
+/* Individual test lists */
+
+.failed_tests_container,
 .passed_tests_container {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+
+	padding: 0 16px;
+}
+
+.failed_tests_container:empty,
+.passed_tests_container:empty {
+	display: none;
+}
+
+/* Individual test results */
+
+.failed_test_container,
+.passed_test_container {
+	padding: 12px 0;
+
+	font-size: 14px;
+	overflow-wrap: anywhere;
+}
+
+.failed_test_container {
+	border-bottom: solid 1px rgb(255, 178, 178);
+	color: rgb(222, 0, 0);
 }
 
 .passed_test_container {
-	margin-top: 30px;
-
-	border-bottom: solid 1px rgb(28, 128, 0);
-
+	border-bottom: solid 1px rgb(190, 220, 180);
 	color: rgb(28, 128, 0);
+}
+
+.failed_test_container:last-child,
+.passed_test_container:last-child {
+	border-bottom: none;
 }

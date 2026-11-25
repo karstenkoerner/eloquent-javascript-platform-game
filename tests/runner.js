@@ -1,24 +1,50 @@
-import { tests } from './unit/level-parser.test.js';
+import { tests as parserTests } from './unit/level-parser.test.js';
+import { tests as stateTests } from './unit/state.test.js';
+import { tests as levelStateTests } from './integration/level-state.test.js';
 
-// Run tests and return the results to the dashboard
+// When adding new test suites, simply import them and add them to the suites object below
+const suites = {
+	'Level Parser UNIT': parserTests,
+	'State UNIT': stateTests,
+	'Level-State INTEGRATION': levelStateTests,
+};
+
 export function runTests() {
 	const results = {
 		totals: {
 			passed: 0,
 			failed: 0,
 		},
-		failedTests: [],
-		passedTests: [],
+		suites: {},
 	};
 
-	for (const test of tests) {
-		try {
-			test.run();
-			results.totals.passed++;
-			results.passedTests.push(test.name);
-		} catch (error) {
-			results.totals.failed++;
-			results.failedTests.push(`${test.name}: ${error.message}`);
+	for (const [suiteName, tests] of Object.entries(suites)) {
+		// Initialize suite-specific results
+		results.suites[suiteName] = {
+			totals: {
+				passed: 0,
+				failed: 0,
+			},
+			passedTests: [],
+			failedTests: [],
+		};
+
+		const suiteResults = results.suites[suiteName];
+
+		for (const test of tests) {
+			// Execute test
+			// Record suite-specific results
+			// Update overall totals
+			try {
+				test.run();
+				results.totals.passed++;
+				suiteResults.totals.passed++;
+				suiteResults.passedTests.push(test.name);
+			} catch (error) {
+				results.totals.failed++;
+				suiteResults.totals.failed++;
+				suiteResults.failedTests.push(`${test.name}: ${error.message}`);
+			}
 		}
 	}
 
