@@ -20,7 +20,7 @@ I remain responsible for implementing the application, writing and testing the c
 
 Project planning and technical documentation are available in the docs/ directory.
 
-### Running the Project
+## Running the Project
 
 ### Prerequisites
 
@@ -50,16 +50,33 @@ Start the local development server:
 npm run dev
 ```
 
-Once the server is running, open the following URLs in your browser:
+Once the server is running, open the following URL in your browser:
 
-- Game: http://localhost:8080
-- Test Suite: http://localhost:8080/tests/
-
-The test suite runs automatically when its page loads. Click Run Tests to execute the tests again.
+http://localhost:8080
 
 To stop the development server, press Ctrl+C in the terminal.
 
-## Code Quality
+## Code Quality / Testing
+
+To run the custom test suite dashboard, start the development server and then open the following URL in your browser:
+
+http://localhost:8080/tests/
+
+The test suite runs automatically when its page loads. Click Run Tests to execute the tests again.
+
+Below is a screenshot of what the dashboard should look like on your screen:
+
+<img src="./docs/assets/test-suite-dashboard.png" 
+    alt="Test Suite Dashboard" 
+    width="600" />
+
+You can also run the tests in the terminal using the following command:
+
+
+```bash
+npm test
+```
+
 
 Run ESLint to check the project's JavaScript code:
 

@@ -2,8 +2,10 @@ import { runTests } from './runner.js';
 
 const results = runTests();
 
-for (const test of results.failedTests) {
-	console.error(`FAIL: ${test}`);
+for (const [suiteName, suiteResults] of Object.entries(results.suites)) {
+	for (const test of suiteResults.failedTests) {
+		console.error(`FAIL [${suiteName}]: ${test}`);
+	}
 }
 
 console.log(`Tests: ${results.totals.passed} passed, ` + `${results.totals.failed} failed`);

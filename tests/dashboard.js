@@ -1,89 +1,105 @@
 import { runTests } from './runner.js';
 
-// Render the test results on the webpage UI
-function renderResults(results) {
-	const resultsContainer = document.querySelector('#test_results');
+// Create an HTML element with optional styling and text
+function createElement(tag, className = '', text = '') {
+	const element = document.createElement(tag);
+	element.className = className;
+	element.textContent = text;
 
-	// The test result totals container, which contains the 3 totals_box divs
-	const totalsContainer = document.createElement('div');
-	totalsContainer.id = 'totals_container';
-	totalsContainer.className = 'totals_container';
-
-	// Total tests container
-	const totalTestsContainer = document.createElement('div');
-	totalTestsContainer.className = 'totals_box total_tests_container';
-	totalTestsContainer.textContent =
-		'Total tests: ' + (results.totals.passed + results.totals.failed);
-
-	// Passed tests container
-	const totalPassedTestsContainer = document.createElement('div');
-	totalPassedTestsContainer.className = 'totals_box total_passed_tests_container';
-	totalPassedTestsContainer.textContent = 'Passed tests: ' + results.totals.passed;
-
-	// Failed tests container
-	const totalFailedTestsContainer = document.createElement('div');
-	totalFailedTestsContainer.className = 'totals_box total_failed_tests_container';
-	totalFailedTestsContainer.textContent = 'Failed tests: ' + results.totals.failed;
-
-	totalsContainer.append(
-		totalTestsContainer,
-		totalPassedTestsContainer,
-		totalFailedTestsContainer,
-	);
-
-	// Container for specific details for failed tests, the error messages for each failed test gets listed in this div
-	const failedTestsContainer = document.createElement('div');
-	failedTestsContainer.id = 'failed_tests_container';
-	failedTestsContainer.className = 'failed_tests_container';
-
-	// Listing all failed tests in the failed tests container
-	results.failedTests.forEach((failedTest) => {
-		const failedTestContainer = document.createElement('div');
-		failedTestContainer.className = 'failed_test_container';
-		failedTestContainer.textContent = failedTest;
-
-		failedTestsContainer.appendChild(failedTestContainer);
-	});
-
-	// Container for specific details for passed tests
-	const passedTestsContainer = document.createElement('div');
-	passedTestsContainer.id = 'passed_tests_container';
-	passedTestsContainer.className = 'passed_tests_container';
-
-	// Listing all passed tests in the passed tests container
-	results.passedTests.forEach((passedTest) => {
-		const passedTestContainer = document.createElement('div');
-		passedTestContainer.className = 'passed_test_container';
-		passedTestContainer.textContent = passedTest;
-
-		passedTestsContainer.appendChild(passedTestContainer);
-	});
-
-	// Update results container
-	resultsContainer.replaceChildren(totalsContainer, failedTestsContainer, passedTestsContainer);
+	return element;
 }
 
+// Render overall test totals
+function renderTotals(totals) {
+	const container = createElement('div', 'totals_container');
+	container.id = 'totals_container';
+
+	container.append(
+		createElement(
+			'div',
+			'totals_box total_tests_container',
+			`Total tests: ${totals.passed + totals.failed}`,
+		),
+		createElement(
+			'div',
+			'totals_box total_passed_tests_container',
+			`Passed tests: ${totals.passed}`,
+		),
+		createElement(
+			'div',
+			'totals_box total_failed_tests_container',
+			`Failed tests: ${totals.failed}`,
+		),
+	);
+
+	return container;
+}
+
+// Render a collection of individual test results
+function renderTestList(tests, status) {
+	const container = createElement('div', `${status}_tests_container`);
+
+	for (const test of tests) {
+		container.appendChild(createElement('div', `${status}_test_container`, test));
+	}
+
+	return container;
+}
+
+// Render an individual collapsible test suite
+function renderSuite(name, results) {
+	const { passed, failed } = results.totals;
+	const total = passed + failed;
+	const status = failed === 0 ? 'passed' : 'failed';
+
+	const suite = createElement('details', `test_suite ${status}`);
+
+	// Automatically expand suites containing failures
+	suite.open = failed > 0;
+
+	const summary = createElement(
+		'summary',
+		'suite_summary',
+		`${name} — ${passed}/${total} passed`,
+	);
+
+	suite.append(
+		summary,
+		renderTestList(results.failedTests, 'failed'),
+		renderTestList(results.passedTests, 'passed'),
+	);
+
+	return suite;
+}
+
+// Render all test results
+function renderResults(results) {
+	const resultsContainer = document.querySelector('#test_results');
+	const suitesContainer = createElement('div', 'suites_container');
+
+	for (const [name, suiteResults] of Object.entries(results.suites)) {
+		suitesContainer.appendChild(renderSuite(name, suiteResults));
+	}
+
+	resultsContainer.replaceChildren(renderTotals(results.totals), suitesContainer);
+}
+
+// Run tests and refresh the dashboard
 function updateResults() {
-	const results = runTests();
-	renderResults(results);
+	renderResults(runTests());
 }
 
 // Initialize the UI
 const root = document.querySelector('#root');
 
-const heading = document.createElement('h1');
-heading.textContent = 'Platform Game - Test Suite';
+const heading = createElement('h1', '', 'Platform Game - Test Suite');
 
-const resultsContainer = document.createElement('div');
+const resultsContainer = createElement('div', 'test_results');
 resultsContainer.id = 'test_results';
-resultsContainer.className = 'test_results';
 
-const runButton = document.createElement('button');
-runButton.className = 'run_button';
-runButton.textContent = 'Run tests';
+const runButton = createElement('button', 'run_button', 'Run tests');
 runButton.addEventListener('click', updateResults);
 
-// Replace the static fallback once the UI is constructed
 root.replaceChildren(heading, runButton, resultsContainer);
 
 updateResults();
