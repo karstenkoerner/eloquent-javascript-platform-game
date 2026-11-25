@@ -66,7 +66,7 @@ The test suite runs automatically when its page loads. Click Run Tests to execut
 
 Below is a screenshot of what the dashboard should look like on your screen:
 
-<img src="./docs/assets/test-suite-dashboard.png" 
+<img src="./docs/assets/test_dashboard_screenshot.png" 
     alt="Test Suite Dashboard" 
     width="600" />
 
